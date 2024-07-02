@@ -13,13 +13,14 @@ public class UserController {
     @Autowired
     UserService userService ;
 
-    @PostMapping("add-user")
-    public User addUser(User u){
-        return userService.addUser(u);
+    @PostMapping("/register")
+    public User RegisterUser(@RequestBody User u){
+
+        return userService.Register(u);
     }
 
-    @GetMapping("get-user/{id}")
-    public Optional<User> getUserById(@PathVariable int id){
-        return userService.getUserById(id);
-    }
+//    @GetMapping("get-user/{id}")
+//    public Optional<User> getUserById(@PathVariable int id){
+//        return userService.getUserById(id);
+//    }
 }
