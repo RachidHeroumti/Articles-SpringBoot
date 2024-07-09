@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -16,16 +15,35 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     UserDao userDao;
-    public User Register(User u) {
-//password will be encoded
+    public String Register(User u) {
+        //check if user alredy existe
+      boolean isExist=  userDao.existsByEmail(u.getEmail());
+
+        if (isExist) return  "User already exist!";
+        //password will be encoded
         User user=new User(u.getName(),u.getEmail(),
                 this.passwordEncoder.encode(u.getPassword()),
                 u.getAbout_you(),
                 u.getDate_creation());
 
         System.out.println("user :"+user);
-       return userDao.save(user);
-//return user;
+        userDao.save(user);
+       return "Register seccessfuly!";
+    }
+
+    public String Login(String email,String password) {
+        Optional<User> optionalUser = userDao.findByEmail(email);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                return "Login successful!";
+            } else {
+                return "Invalid password!";
+            }
+        } else {
+            return "User not found!";
+        }
     }
 
     public Optional<User> getUserById(int id) {

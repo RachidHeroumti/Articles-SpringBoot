@@ -1,5 +1,6 @@
 package com.app.Articles.Controllers;
 
+import com.app.Articles.DTO.Loginrequest;
 import com.app.Articles.Services.UserService;
 import com.app.Articles.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,18 @@ public class UserController {
     UserService userService ;
 
     @PostMapping("/register")
-    public User RegisterUser(@RequestBody User u){
+    public String RegisterUser(@RequestBody User u){
 
         return userService.Register(u);
     }
+    @PostMapping("/login")
+    public String login(@RequestBody Loginrequest loginRequest) {
+        return userService.Login(loginRequest.getEmail(), loginRequest.getPassword());
+    }
+    @GetMapping("get-user/{id}")
+    public Optional<User> getUserById(@PathVariable int id){
+        return userService.getUserById(id);
+    }
 
-//    @GetMapping("get-user/{id}")
-//    public Optional<User> getUserById(@PathVariable int id){
-//        return userService.getUserById(id);
-//    }
+
 }
