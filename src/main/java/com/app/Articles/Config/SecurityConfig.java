@@ -25,7 +25,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection for testing purposes
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/user/register","/article/all-articles","/user/login").permitAll() // Allow public access to the register endpoint
+                        .requestMatchers("/user/register","/article/all-articles","/user/login",
+                                "/article/add-article").permitAll() // Allow public access to the register endpoint
                         .anyRequest().authenticated() // Require authentication for any other requests
                 )
                 .httpBasic(withDefaults()); // Use basic HTTP authentication

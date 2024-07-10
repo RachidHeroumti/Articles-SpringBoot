@@ -1,5 +1,6 @@
 package com.app.Articles.Controllers;
 
+import com.app.Articles.DTO.ArticleDto;
 import com.app.Articles.Services.ArticleService;
 import com.app.Articles.models.Article;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,24 @@ public class ArticleController {
     }
 
     @PostMapping("add-article")
-    public Article AddArticle(@RequestBody Article article){
+    public Article AddArticle(@RequestBody ArticleDto article){
+        System.out.println(article.toString()+"hhhh");
         return articleService.addArticles(article);
     }
 
     public List<Article> getArticlesByCategory(String category){
         return articleService.getArticlesByCategory(category);
     }
+
+    @PostMapping("/update")
+    public Article UpdateArticle(@RequestBody Article article){
+        return  articleService.UpdateArticle(article);
+    }
+
+    @PostMapping("/delete/{id}")
+    public String DeletArticle(@PathVariable int id){
+        return  articleService.DeleteArticle(id);
+    }
+
 
 }
