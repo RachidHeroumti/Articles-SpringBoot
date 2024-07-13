@@ -4,6 +4,7 @@ import com.app.Articles.DTO.ArticleDto;
 import com.app.Articles.Services.ArticleService;
 import com.app.Articles.models.Article;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +28,9 @@ public class ArticleController {
     }
 
     @PostMapping("add-article")
-    public Article AddArticle(@RequestBody ArticleDto article){
+    public ResponseEntity<Article>  AddArticle(@RequestBody ArticleDto article){
         System.out.println(article.toString()+"hhhh");
-        return articleService.addArticles(article);
+        return ResponseEntity.ok( articleService.addArticles(article));
     }
 
     public List<Article> getArticlesByCategory(String category){
