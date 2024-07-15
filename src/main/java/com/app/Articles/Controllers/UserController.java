@@ -4,6 +4,7 @@ import com.app.Articles.DTO.Loginrequest;
 import com.app.Articles.Services.UserService;
 import com.app.Articles.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -15,9 +16,9 @@ public class UserController {
     UserService userService ;
 
     @PostMapping("/register")
-    public String RegisterUser(@RequestBody User u){
+    public ResponseEntity<String> RegisterUser(@RequestBody User u){
 
-        return userService.Register(u);
+        return ResponseEntity.ok(userService.Register(u));
     }
     @PostMapping("/login")
     public String login(@RequestBody Loginrequest loginRequest) {

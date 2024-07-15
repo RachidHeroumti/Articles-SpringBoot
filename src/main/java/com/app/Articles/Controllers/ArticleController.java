@@ -33,8 +33,8 @@ public class ArticleController {
         return ResponseEntity.ok( articleService.addArticles(article));
     }
 
-    public List<Article> getArticlesByCategory(String category){
-        return articleService.getArticlesByCategory(category);
+    public ResponseEntity<List<Article>> getArticlesByCategory(String category){
+        return ResponseEntity.ok(articleService.getArticlesByCategory(category));
     }
 
     @PostMapping("/update")

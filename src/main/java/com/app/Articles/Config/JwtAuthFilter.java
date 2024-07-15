@@ -4,8 +4,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,16 +20,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-
+@AllArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
-    private final JwtUtils jwtUtil ;
+    @Autowired
+    private  UserDetaitSer userDetailsService;
+    @Autowired
+    private  JwtUtils jwtUtil ;
 
-    public JwtAuthFilter(UserDetailsService userDetailsService, JwtUtils jwtUtil) {
-        this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
-    }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
@@ -53,8 +54,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(req, res);
     }
 
-//    @Bean
-//    public JwtAuthFilter jwtAuthFilter() {
-//        return new JwtAuthFilter(userDetailsService(), jwtUtil);
-//    }
+
 }
