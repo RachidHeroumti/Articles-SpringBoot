@@ -6,8 +6,11 @@ import com.app.Articles.Dao.UserDao;
 import com.app.Articles.models.Article;
 import com.app.Articles.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +18,7 @@ import java.util.Optional;
 public class ArticleService {
 
     @Autowired
-ArticlesDao articlesDao ;
+    ArticlesDao articlesDao ;
 
     public List<Article> getAllArticles() {
         return articlesDao.findAll();
@@ -27,7 +30,7 @@ ArticlesDao articlesDao ;
 @Autowired
     UserDao userDao ;
 
-    public Article addArticles(ArticleDto article) {
+    public ResponseEntity<Article> addArticles(ArticleDto article) {
         Optional<User> optionalUser = userDao.findById(article.getUserId());
         System.out.println(article.getUserId()+"----------");
         if (optionalUser.isPresent()) {
@@ -40,26 +43,27 @@ ArticlesDao articlesDao ;
             ar.setCategory(article.getCategory());
             ar.setDate_creation(article.getDateCreation());
 
-
-            return  articlesDao.save(ar);
+Article a= articlesDao.save(ar);
+            return new ResponseEntity<>(a, HttpStatus.CREATED) ;
         } else {
-            System.out.println("user not found");
-            return new Article();
+
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
 
-    public List<Article> getArticlesByCategory(String category) {
-        return articlesDao.findByCategory(category);
+    public ResponseEntity<List<Article>> getArticlesByCategory(String category) {
+        List<Article> ar=articlesDao.findByCategory(category);
+        return new ResponseEntity<>(ar,HttpStatus.OK);
     }
 
     public Article UpdateArticle(Article article) {
         return articlesDao.save(article);
     }
 
-    public String DeleteArticle(int id) {
+    public ResponseEntity<String> DeleteArticle(int id) {
         articlesDao.deleteById(id);
-        return "deleted succefully" ;
+        return new ResponseEntity<>("deleted ",HttpStatus.OK) ;
 
     }
 }

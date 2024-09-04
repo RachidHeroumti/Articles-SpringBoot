@@ -29,12 +29,12 @@ public class ArticleController {
 
     @PostMapping("add-article")
     public ResponseEntity<Article>  AddArticle(@RequestBody ArticleDto article){
-        System.out.println(article.toString()+"hhhh");
-        return ResponseEntity.ok( articleService.addArticles(article));
+
+        return articleService.addArticles(article);
     }
 
     public ResponseEntity<List<Article>> getArticlesByCategory(String category){
-        return ResponseEntity.ok(articleService.getArticlesByCategory(category));
+        return articleService.getArticlesByCategory(category);
     }
 
     @PostMapping("/update")
@@ -43,7 +43,7 @@ public class ArticleController {
     }
 
     @PostMapping("/delete/{id}")
-    public String DeletArticle(@PathVariable int id){
+    public ResponseEntity<String> DeletArticle(@PathVariable int id){
         return  articleService.DeleteArticle(id);
     }
 
